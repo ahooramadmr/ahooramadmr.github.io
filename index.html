@@ -106,14 +106,11 @@
             📢 رزرو تبلیغات
         </a>
     </div>
-<label>نام</label><br>
-<input
-type="text"
-name="name"
-required
-minlength="3"
-maxlength="17">
-<br><br>
+<form action="https://api.web3forms.com/submit" method="POST">
+
+<input type="hidden" name="access_key" value="c1bf6f51-0b70-4740-918d-325990b1a995">
+
+<input type="hidden" name="subject" value="پیام جدید از سایت اهورا ماد مستر">
 
 <label>یوزرنیم</label><br>
 <input
@@ -129,11 +126,13 @@ placeholder="@username">
 <textarea
 name="message"
 required
-rows="6"></textarea>
+rows="6"
+placeholder="پیام خود را بنویسید..."></textarea>
 <br><br>
 
 <label>امتیاز</label><br>
 <select name="star" required>
+<option value="">انتخاب امتیاز</option>
 <option value="1">⭐</option>
 <option value="2">⭐⭐</option>
 <option value="3">⭐⭐⭐</option>
@@ -144,10 +143,12 @@ rows="6"></textarea>
 
 <label>
 <input type="checkbox" required>
-قوانین و حریم خصوصی را می‌پذیرم.
+قوانین و حریم خصوصی سایت را مطالعه کرده‌ام و می‌پذیرم.
 </label>
 <br><br>
 
 <button type="submit">ارسال پیام</button>
+
+</form>
 </body>
 </html>
