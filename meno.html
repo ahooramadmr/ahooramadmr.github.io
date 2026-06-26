@@ -2,99 +2,149 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title> دانلود ماد ماینکرفت | ماینکرفت </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>دانلود مودهای ماینکرفت</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
     font-family:tahoma;
-    text-align:center;
-    margin:0;
+    background:#f5f5f5;
     padding:15px;
+    text-align:center;
 }
 
 h1{
     margin-bottom:20px;
 }
 
-input{
-    width:90%;
+#search{
+    width:100%;
     max-width:500px;
     padding:15px;
     font-size:18px;
+    border:1px solid #bbb;
     border-radius:10px;
-    border:1px solid #ccc;
-    margin-bottom:20px;
+    margin-bottom:25px;
+}
+
+.mods{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
 }
 
 .item{
-    margin-bottom:5vh;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+    transition:.2s;
+}
+
+.item:hover{
+    transform:scale(1.02);
 }
 
 .item img{
     width:100%;
-    height:40vw;
-    min-height:200px;
+    height:220px;
     object-fit:cover;
-    border-radius:20px;
-    box-shadow:0 0 10px rgba(0,0,0,0.15);
+    display:block;
 }
 
-.hide{
-    display:none;
+.item h2{
+    padding:15px;
+    font-size:20px;
+    color:#222;
 }
 </style>
-
 </head>
+
 <body>
 
 <h1>🔍 جستجوی مودها</h1>
-    
-<input type="text" id="search" placeholder="اسم مود را وارد کن...">
-<div class="item" data-name="لاک پشت های نینجا">
-    <a href="mod5.html">
-        <img src="mod5.png">
-    </a>
-</div
+
+<input
+type="text"
+id="search"
+placeholder="اسم مود را وارد کنید...">
+
+<div class="mods">
+
 <div class="item" data-name="بیکینی باتم">
-    <a href="mod1.html">
-        <img src="mod1.png">
-    </a>
+<a href="mod1.html">
+<img src="mod1.png" alt="بیکینی باتم">
+<h2>بیکینی باتم</h2>
+</a>
 </div>
 
 <div class="item" data-name="سونیک">
-    <a href="mod2.html">
-        <img src="mod2.png">
-    </a>
+<a href="mod2.html">
+<img src="mod2.png" alt="سونیک">
+<h2>سونیک</h2>
+</a>
 </div>
 
 <div class="item" data-name="ماشین">
-    <a href="mod3.html">
-        <img src="mod3.png">
-    </a>
-</di>v>
+<a href="mod3.html">
+<img src="mod3.png" alt="ماشین">
+<h2>ماشین</h2>
+</a>
+</div>
 
 <div class="item" data-name="باب اسفنجی">
-    <a href="mod4.html">
-        <img src="mod4.png">
-    </a>
-</div
+<a href="mod4.html">
+<img src="mod4.png" alt="باب اسفنجی">
+<h2>باب اسفنجی</h2>
+</a>
+</div>
+
+<div class="item" data-name="لاک پشت های نینجا">
+<a href="mod5.html">
+<img src="mod5.png" alt="لاک پشت های نینجا">
+<h2>لاک پشت های نینجا</h2>
+</a>
+</div>
+
+<!-- هر مود جدید فقط همین ۶ خط را کپی کن -->
+
+<!--
+<div class="item" data-name="اسم مود">
+<a href="mod6.html">
+<img src="mod6.png" alt="اسم مود">
+<h2>اسم مود</h2>
+</a>
+</div>
+-->
+
+</div>
 
 <script>
-const search = document.getElementById("search");
-const items = document.querySelectorAll(".item");
+const search=document.getElementById("search");
+const items=document.querySelectorAll(".item");
 
-search.addEventListener("input", function(){
-    let value = this.value.toLowerCase();
+search.addEventListener("input",()=>{
 
-    items.forEach(item => {
-        let name = item.getAttribute("data-name");
+const value=search.value.trim().toLowerCase();
 
-        if(name.toLowerCase().includes(value)){
-            item.style.display = "block";
-        }else{
-            item.style.display = "none";
-        }
-    });
+items.forEach(item=>{
+
+const name=item.dataset.name.toLowerCase();
+
+item.style.display=
+name.includes(value)
+? ""
+: "none";
+
+});
+
 });
 </script>
 
