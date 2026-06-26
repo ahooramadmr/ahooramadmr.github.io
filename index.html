@@ -106,6 +106,48 @@
             📢 رزرو تبلیغات
         </a>
     </div>
+<label>نام</label><br>
+<input
+type="text"
+name="name"
+required
+minlength="3"
+maxlength="17">
+<br><br>
 
+<label>یوزرنیم</label><br>
+<input
+type="text"
+name="username"
+required
+minlength="3"
+maxlength="30"
+placeholder="@username">
+<br><br>
+
+<label>پیام</label><br>
+<textarea
+name="message"
+required
+rows="6"></textarea>
+<br><br>
+
+<label>امتیاز</label><br>
+<select name="star" required>
+<option value="1">⭐</option>
+<option value="2">⭐⭐</option>
+<option value="3">⭐⭐⭐</option>
+<option value="4">⭐⭐⭐⭐</option>
+<option value="5">⭐⭐⭐⭐⭐</option>
+</select>
+<br><br>
+
+<label>
+<input type="checkbox" required>
+قوانین و حریم خصوصی را می‌پذیرم.
+</label>
+<br><br>
+
+<button type="submit">ارسال پیام</button>
 </body>
 </html>
