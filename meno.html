@@ -3,145 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>دانلود مودهای ماینکرفت</title>
-
 <style>
-body{
-    font-family:tahoma;
-    text-align:center;
-    margin:0;
-    padding:15px;
-    background:#f5f5f5;
-}
+    /* استایل کلی */
+    body {
+        font-family: tahoma;
+        text-align: center;
+        margin: 0;
+        padding: 15px;
+        background: #f5f5f5;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
 
-h1{
-    margin-bottom:20px;
-}
+    /* وقتی صفحه کاملاً لود شد، نمایان می‌شود */
+    body.loaded {
+        opacity: 1;
+    }
 
-input{
-    width:90%;
-    max-width:500px;
-    padding:15px;
-    font-size:18px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    margin-bottom:20px;
-}
+    h1 {
+        margin-bottom: 20px;
+    }
 
-.mods{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-}
+    input {
+        width: 90%;
+        max-width: 500px;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
 
-.item img{
-    width:100%;
-    height:40vw;
-    min-height:200px;
-    object-fit:cover;
-    border-radius:20px;
-    display:block;
-    box-shadow:0 0 10px rgba(0,0,0,.15);
-}
+    .mods {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
 
-.item a{
-    text-decoration:none;
-}
+    .item img {
+        width: 100%;
+        height: 40vw;
+        min-height: 200px;
+        object-fit: cover;
+        border-radius: 20px;
+        display: block;
+        box-shadow: 0 0 10px rgba(0,0,0,.15);
+    }
+
+    .item a {
+        text-decoration: none;
+        display: block;
+        position: relative;
+    }
+
+    /* استایل لودینگ برای هر آیتم */
+    .item .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.8);
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 10;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+    }
+
+    .item .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* اسپینر لودینگ */
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    /* لودینگ اولیه کل صفحه */
+    #page-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 9999;
+        transition: opacity 0.8s ease;
+    }
+
+    #page-loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #page-loader .spinner {
+        width: 70px;
+        height: 70px;
+        border-width: 6px;
+    }
+
+    #page-loader p {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* اطلاعیه */
+    .notice {
+        background: #ffebee;
+        border: 2px solid #f44336;
+        color: #b71c1c;
+        padding: 18px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 15px 0;
+    }
+
+    .notice a {
+        color: #b71c1c;
+        font-weight: bold;
+    }
 </style>
 </head>
-
 <body>
-<div style="background:#ffebee;border:2px solid #f44336;color:#b71c1c;padding:18px;border-radius:10px;text-align:center;margin:15px 0;">
+
+<!-- لودینگ اولیه کل صفحه -->
+<div id="page-loader">
+    <div class="spinner"></div>
+    <p>در حال بارگذاری...</p>
+</div>
+
+<!-- محتوای اصلی -->
+<div class="notice">
     <h2>⚠️ اطلاعیه مهم</h2>
-
-    <p><strong>فقط دانلود مود از دسترس خارج شده است .</strong></p>
-
-    <p>
-        به دلیل بروز یک مشکل سیستمی، نسخه دانلود برنامه موقتاً غیرفعال شده و در حال بررسی و رفع مشکل است اگر در سایت هستید می توانید راحت اسوده 🫰 هرچیزی رو دانلود کنید.
-    </p>
-
-    <p>
-        <strong>وب‌سایت رسمی کاملاً فعال و امن است</strong> و می‌توانید با خیال راحت از نسخه وب استفاده کنید.
-    </p>
-
-    <p>
-        <a href="https://ahooramadmr.github.io/AhooraMadMr/" target="_blank">
-            https://ahooramadmr.github.io/AhooraMadMr/
-        </a>
-    </p>
-
+    <p><strong>فقط دانلود مود از دسترس خارج شده است.</strong></p>
+    <p>به دلیل بروز یک مشکل سیستمی، نسخه دانلود برنامه موقتاً غیرفعال شده و در حال بررسی و رفع مشکل است اگر در سایت هستید می توانید راحت اسوده 🫰 هرچیزی رو دانلود کنید.</p>
+    <p><strong>وب‌سایت رسمی کاملاً فعال و امن است</strong> و می‌توانید با خیال راحت از نسخه وب استفاده کنید.</p>
+    <p><a href="https://ahooramadmr.github.io/AhooraMadMr/" target="_blank">https://ahooramadmr.github.io/AhooraMadMr/</a></p>
     <p>از صبر و همراهی شما سپاسگزاریم. 🙏</p>
 </div>
-<h1>🔍 جستجوی مودها</h1>
 
+<h1>🔍 جستجوی مودها</h1>
 <input type="text" id="search" placeholder="اسم مود را وارد کن...">
 
 <div class="mods">
+    <!-- آیتم‌ها با لودینگ داخلی -->
+    <div class="item" data-id="1" data-name="بیکینی باتم">
+        <a href="mod1.html">
+            <img src="mod1.png" alt="بیکینی باتم">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 
-<div class="item" data-id="1" data-name="بیکینی باتم">
-    <a href="mod1.html">
-        <img src="mod1.png" alt="بیکینی باتم">
-    </a>
-</div>
+    <div class="item" data-id="2" data-name="سونیک">
+        <a href="mod2.html">
+            <img src="mod2.png" alt="سونیک">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 
-<div class="item" data-id="2" data-name="سونیک">
-    <a href="mod2.html">
-        <img src="mod2.png" alt="سونیک">
-    </a>
-</div>
+    <div class="item" data-id="3" data-name="ماشین">
+        <a href="mod3.html">
+            <img src="mod3.png" alt="ماشین">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 
-<div class="item" data-id="3" data-name="ماشین">
-    <a href="mod3.html">
-        <img src="mod3.png" alt="ماشین">
-    </a>
-</div>
+    <div class="item" data-id="4" data-name="باب اسفنجی">
+        <a href="mod4.html">
+            <img src="mod4.png" alt="باب اسفنجی">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 
-<div class="item" data-id="4" data-name="باب اسفنجی">
-    <a href="mod4.html">
-        <img src="mod4.png" alt="باب اسفنجی">
-    </a>
-</div>
+    <div class="item" data-id="5" data-name="لاک پشت های نینجا">
+        <a href="mod5.html">
+            <img src="mod5.png" alt="لاک پشت های نینجا">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 
-<div class="item" data-id="5" data-name="لاک پشت های نینجا">
-    <a href="mod5.html">
-        <img src="mod5.png" alt="لاک پشت های نینجا">
-    </a>
-</div>
-<div class="item" data-id="6" data-name="اژدها">
-    <a href="mod6.html">
-        <img src="mod6.png" alt="اژدها">
-    </a>
-</div>
+    <div class="item" data-id="6" data-name="اژدها">
+        <a href="mod6.html">
+            <img src="mod6.png" alt="اژدها">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">در حال بارگذاری...</span>
+            </div>
+        </a>
+    </div>
 </div>
 
 <script>
-const mods = document.querySelector(".mods");
-
-// مرتب کردن مودها (جدیدترین اول)
-const items = [...document.querySelectorAll(".item")];
-
-items
-.sort((a,b)=>Number(b.dataset.id)-Number(a.dataset.id))
-.forEach(item=>mods.appendChild(item));
-
-// جستجو
-const search = document.getElementById("search");
-
-search.addEventListener("input",function(){
-
-    const value=this.value.trim().toLowerCase();
-
-    document.querySelectorAll(".item").forEach(item=>{
-
-        const name=item.dataset.name.toLowerCase();
-
-        item.style.display=
-            name.includes(value) ? "" : "none";
-
+    // ==========================================
+    // 1. لودینگ اولیه صفحه
+    // ==========================================
+    window.addEventListener('load', function() {
+        // صفحه کاملاً لود شد
+        document.body.classList.add('loaded');
+        const pageLoader = document.getElementById('page-loader');
+        pageLoader.classList.add('hidden');
+        
+        // بعد از 800 میلی‌ثانیه المان لودر را حذف می‌کنیم (اختیاری)
+        setTimeout(() => {
+            pageLoader.style.display = 'none';
+        }, 1000);
     });
 
-});
+    // ==========================================
+    // 2. لودینگ برای هر لینک (وقتی کلیک شود)
+    // ==========================================
+    document.querySelectorAll('.item a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // اگر لینک خالی یا # بود، جلوگیری می‌کنیم
+            const href = this.getAttribute('href');
+            if (!href || href === '#') {
+                e.preventDefault();
+                return;
+            }
+
+            // پیدا کردن اوری‌لی مربوطه در همین آیتم
+            const overlay = this.querySelector('.loading-overlay');
+            if (overlay) {
+                // نمایش لودینگ
+                overlay.classList.remove('hidden');
+            }
+
+            // اجازه می‌دهیم لینک به صفحه جدید برود
+            // اما مرورگر ممکن است قبل از نمایش لودینگ صفحه را عوض کند
+            // برای اطمینان بیشتر، یک تاخیر کوچک می‌دهیم
+            e.preventDefault(); // جلوگیری از رفتن فوری
+            const targetUrl = href;
+
+            // نمایش لودینگ و سپس رفتن به لینک
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 300); // 300 میلی‌ثانیه برای دیدن لودینگ
+        });
+    });
+
+    // ==========================================
+    // 3. اگر صفحه با لینک مستقیم بارگذاری شود و لودینگ بماند
+    //    (این برای زمانی است که از صفحه دیگر به این صفحه برگردیم)
+    // ==========================================
+    // اگر صفحه دوباره بارگذاری شد، مطمئن می‌شویم لودینگ‌ها دوباره فعال شوند
+    document.querySelectorAll('.item a').forEach(link => {
+        const overlay = link.querySelector('.loading-overlay');
+        if (overlay) {
+            // اگر صفحه تازه بارگذاری شده، لودینگ‌ها را پنهان می‌کنیم
+            // (چون خود صفحه لود شده، پس نیازی به نشان دادن لودینگ آیتم‌ها نیست)
+            overlay.classList.add('hidden');
+        }
+    });
+
+    // ==========================================
+    // 4. جستجو (همان کد قبلی)
+    // ==========================================
+    const mods = document.querySelector(".mods");
+    const items = [...document.querySelectorAll(".item")];
+
+    items.sort((a, b) => Number(b.dataset.id) - Number(a.dataset.id))
+         .forEach(item => mods.appendChild(item));
+
+    const search = document.getElementById("search");
+    search.addEventListener("input", function() {
+        const value = this.value.trim().toLowerCase();
+        document.querySelectorAll(".item").forEach(item => {
+            const name = item.dataset.name.toLowerCase();
+            item.style.display = name.includes(value) ? "" : "none";
+        });
+    });
+
+    // ==========================================
+    // 5. شبیه‌سازی لودینگ برای صفحه فعلی (اختیاری)
+    //    اگر از صفحه دیگری به اینجا آمدیم و صفحه کاملاً لود نشده
+    // ==========================================
+    // اگر صفحه هنوز لود نشده، body را مخفی نگه می‌داریم تا page-loader نمایش داده شود
+    // اما چون از event load استفاده کردیم، این کار انجام می‌شود.
+    console.log('صفحه آماده است!');
 </script>
 
 </body>
