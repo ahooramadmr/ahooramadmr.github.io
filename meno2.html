@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 لیست بازی‌های روبلاکس</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f2f4f8;
+      color: #1e2a3a;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1300px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      text-align: center;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sub {
+      text-align: center;
+      color: #6b7a94;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      border-bottom: 1px solid #d0d7e2;
+      padding-bottom: 1rem;
+    }
+
+    /* ابزارهای بالا (جستجو + دکمه‌ها) */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    #searchBox {
+      flex: 1 1 280px;
+      min-width: 200px;
+      padding: 0.8rem 1.6rem;
+      border-radius: 60px;
+      border: 2px solid #d0d7e2;
+      background: #ffffff;
+      color: #1e2a3a;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: 0.25s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      outline: none;
+    }
+
+    #searchBox:focus {
+      border-color: #6b7a94;
+      box-shadow: 0 0 0 4px rgba(107, 122, 148, 0.15);
+    }
+
+    #searchBox::placeholder {
+      color: #a0aec0;
+      font-weight: 300;
+    }
+
+    .action-btn {
+      padding: 0.8rem 1.6rem;
+      border-radius: 60px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .btn-random {
+      background: #2c3e50;
+      color: #ffffff;
+    }
+
+    .btn-random:hover {
+      background: #1a2a3a;
+      transform: scale(1.03);
+    }
+
+    .btn-random:active {
+      transform: scale(0.97);
+    }
+
+    .btn-copy {
+      background: #e8ecf3;
+      color: #1e2a3a;
+    }
+
+    .btn-copy:hover {
+      background: #d5dbe6;
+    }
+
+    /* دکمه کپی کوچک روی کارت */
+    .copy-icon {
+      background: none;
+      border: none;
+      color: #8a9ab0;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 30px;
+      transition: 0.2s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eef1f6;
+      margin-top: 0.3rem;
+      align-self: flex-start;
+    }
+
+    .copy-icon:hover {
+      background: #d0d7e2;
+      color: #1e2a3a;
+    }
+
+    .copy-icon.copied {
+      background: #2c3e50;
+      color: white;
+    }
+
+    /* دسته‌بندی */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem 0.9rem;
+      margin-bottom: 2.8rem;
+    }
+
+    .filter-btn {
+      background: #ffffff;
+      border: 2px solid #d0d7e2;
+      padding: 0.55rem 1.4rem;
+      border-radius: 40px;
+      color: #4a5a74;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      font-family: inherit;
+    }
+
+    .filter-btn:hover {
+      background: #e8ecf3;
+      border-color: #6b7a94;
+      color: #1e2a3a;
+    }
+
+    .filter-btn.active {
+      background: #2c3e50;
+      color: #ffffff;
+      border-color: #2c3e50;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+    }
+
+    /* شبکه بازی‌ها */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .game-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 1.2rem 1.2rem 1rem 1.2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e2e7ef;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: #b0bccf;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      background: #f8faff;
+    }
+
+    .game-name {
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.4;
+      color: #1e2a3a;
+      margin-bottom: 0.2rem;
+      word-break: break-word;
+    }
+
+    .game-persian {
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: #5a6a84;
+      margin-bottom: 0.3rem;
+    }
+
+    .game-category {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      color: #4a5a74;
+      background: #eef1f6;
+      display: inline-block;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      margin-top: 0.4rem;
+      align-self: flex-start;
+      border: 1px solid #dce1ea;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      margin-top: 0.6rem;
+      font-size: 0.7rem;
+      color: #8a9ab0;
+      border-top: 1px dashed #dce1ea;
+      padding-top: 0.6rem;
+    }
+
+    .no-result {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 0;
+      color: #6b7a94;
+      font-size: 1.2rem;
+      background: #ffffff;
+      border-radius: 60px;
+      border: 2px dashed #d0d7e2;
+    }
+
+    /* پیام توست (notification) */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c3e50;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    footer {
+      margin-top: 3.5rem;
+      font-size: 0.8rem;
+      color: #8a9ab0;
+      text-align: center;
+      border-top: 1px solid #dce1ea;
+      padding-top: 1.8rem;
+      width: 100%;
+    }
+
+    @media (max-width: 550px) {
+      h1 { font-size: 2rem; }
+      .game-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+      .filter-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .action-btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>🎮 روبلاکس · همه بازی‌ها</h1>
+  <div class="sub">بیش از ۹۰ بازی با اسم فارسی + جستجو و دسته‌بندی</div>
+
+  <!-- نوار ابزار: جستجو + دکمه‌ها -->
+  <div class="toolbar">
+    <input type="text" id="searchBox" placeholder="🔍 جستجو... (مثلاً: وان‌پیس، بقا، ترسناک)">
+    <button class="action-btn btn-random" id="randomBtn">🎲 انتخاب تصادفی</button>
+    <button class="action-btn btn-copy" id="copyAllBtn">📋 کپی همه اسامی</button>
+  </div>
+
+  <!-- دسته‌بندی -->
+  <div class="filter-tabs" id="categoryFilter">
+    <button class="filter-btn active" data-cat="همه">🌟 همه‌چیز</button>
+    <button class="filter-btn" data-cat="نقش‌آفرینی">🎭 زندگی‌دوم</button>
+    <button class="filter-btn" data-cat="مبارزه">⚔️ رزم‌آوران</button>
+    <button class="filter-btn" data-cat="ترسناک">👻 وحشت‌ناک</button>
+    <button class="filter-btn" data-cat="بقا">🏕️ زنده‌ماندن</button>
+    <button class="filter-btn" data-cat="شبیه‌ساز">🎯 شبیه‌سازها</button>
+    <button class="filter-btn" data-cat="ساخت‌وساز">🧱 معماران</button>
+    <button class="filter-btn" data-cat="پارکور">🏃 پرش‌ورزان</button>
+    <button class="filter-btn" data-cat="ورزشی">⚽ ورزشکاران</button>
+    <button class="filter-btn" data-cat="تیراندازی">🔫 تیراندازان</button>
+    <button class="filter-btn" data-cat="دفاع از برج">🗼 برج‌نگهبانان</button>
+    <button class="filter-btn" data-cat="اجتماعی">👥 هم‌نشین‌ها</button>
+    <button class="filter-btn" data-cat="انیمه">🎌 انیمه‌بازها</button>
+  </div>
+
+  <!-- شبکه بازی‌ها -->
+  <div class="game-grid" id="gameGrid"></div>
+  <footer>⚡ لیست پویا · جستجو و دسته‌بندی · بیش از ۱۰۰ عنوان</footer>
+</div>
+
+<!-- پیام توست -->
+<div class="toast" id="toast"></div>
+
+<script>
+  (function() {
+    const gamesData = [
+      { name: "Brookhaven 🏡RP", persian: "بروکهاون نقش‌آفرینی", category: "نقش‌آفرینی" },
+      { name: "Blox Fruits", persian: "وان‌پیس میوه‌ها", category: "انیمه" },
+      { name: "Adopt Me!", persian: "من رو به فرزندی قبول کن", category: "شبیه‌ساز" },
+      { name: "Grow a Garden", persian: "باغچه‌ات را پرورش بده", category: "شبیه‌ساز" },
+      { name: "Tower of Hell", persian: "برج جهنم", category: "پارکور" },
+      { name: "Murder Mystery 2", persian: "راز قتل ۲", category: "ترسناک" },
+      { name: "MeepCity", persian: "شهر میپ", category: "اجتماعی" },
+      { name: "Jailbreak", persian: "فرار از زندان", category: "نقش‌آفرینی" },
+      { name: "DOORS", persian: "درها", category: "ترسناک" },
+      { name: "Piggy", persian: "پیگی", category: "ترسناک" },
+      { name: "Arsenal", persian: "آرسنال", category: "تیراندازی" },
+      { name: "BedWars", persian: "جنگ تخت‌خواب", category: "مبارزه" },
+      { name: "Pet Simulator 99", persian: "شبیه‌ساز حیوان ۹۹", category: "شبیه‌ساز" },
+      { name: "Pet Simulator X", persian: "شبیه‌ساز حیوان ایکس", category: "شبیه‌ساز" },
+      { name: "Evade", persian: "فرار کن", category: "بقا" },
+      { name: "The Mimic", persian: "تقلیدکننده", category: "ترسناک" },
+      { name: "Rainbow Friends", persian: "دوستان رنگین‌کمان", category: "ترسناک" },
+      { name: "Slap Battles", persian: "نبرد سیلی", category: "مبارزه" },
+      { name: "Build A Boat For Treasure", persian: "برای گنج قایق بساز", category: "ساخت‌وساز" },
+      { name: "Natural Disaster Survival", persian: "بقا در بلایای طبیعی", category: "بقا" },
+      { name: "Royale High", persian: "دبیرستان رویال", category: "نقش‌آفرینی" },
+      { name: "Bee Swarm Simulator", persian: "شبیه‌ساز زنبورها", category: "شبیه‌ساز" },
+      { name: "Driving Empire", persian: "امپراتوری رانندگی", category: "شبیه‌ساز" },
+      { name: "Vehicle Legends", persian: "افسانه‌های ماشین", category: "ورزشی" },
+      { name: "Greenville", persian: "گرینویل", category: "شبیه‌ساز" },
+      { name: "Car Crushers 2", persian: "ماشین‌شکن‌ها ۲", category: "شبیه‌ساز" },
+      { name: "Work at a Pizza Place", persian: "کار در پیتزا فروشی", category: "نقش‌آفرینی" },
+      { name: "Theme Park Tycoon 2", persian: "شهربازی‌ساز ۲", category: "ساخت‌وساز" },
+      { name: "Restaurant Tycoon 2", persian: "رستوران‌ساز ۲", category: "ساخت‌وساز" },
+      { name: "Lumber Tycoon 2", persian: "چوب‌باز ۲", category: "شبیه‌ساز" },
+      { name: "SharkBite", persian: "نیش کوسه", category: "بقا" },
+      { name: "Fishing Simulator", persian: "شبیه‌ساز ماهیگیری", category: "شبیه‌ساز" },
+      { name: "Anime Fighting Simulator", persian: "شبیه‌ساز مبارزه انیمه‌ای", category: "انیمه" },
+      { name: "Anime Adventures", persian: "ماجراجویی‌های انیمه", category: "انیمه" },
+      { name: "Anime Champions Simulator", persian: "شبیه‌ساز قهرمانان انیمه", category: "انیمه" },
+      { name: "Blue Lock: Rivals", persian: "لاک آبی: رقبا", category: "انیمه" },
+      { name: "Volleyball Legends", persian: "افسانه‌های والیبال", category: "ورزشی" },
+      { name: "Blade Ball", persian: "توپ تیغه‌ای", category: "مبارزه" },
+      { name: "Combat Warriors", persian: "جنگجویان مبارز", category: "مبارزه" },
+      { name: "RIVALS", persian: "رقبا", category: "تیراندازی" },
+      { name: "Phantom Forces", persian: "نیروهای شبح", category: "تیراندازی" },
+      { name: "Counter Blox", persian: "کانتر بلوکس", category: "تیراندازی" },
+      { name: "Bad Business", persian: "تجارت بد", category: "تیراندازی" },
+      { name: "Frontlines", persian: "خط‌های مقدم", category: "تیراندازی" },
+      { name: "Deepwoken", persian: "عمیق‌بیدار", category: "نقش‌آفرینی" },
+      { name: "Arcane Odyssey", persian: "سفر اسرارآمیز", category: "نقش‌آفرینی" },
+      { name: "World // Zero", persian: "جهان // صفر", category: "انیمه" },
+      { name: "Dragon Adventures", persian: "ماجراجویی اژدها", category: "شبیه‌ساز" },
+      { name: "Creatures of Sonaria", persian: "موجودات سوناریا", category: "بقا" },
+      { name: "Warrior Cats", persian: "گربه‌های جنگجو", category: "نقش‌آفرینی" },
+      { name: "SCP: Roleplay", persian: "اس‌سی‌پی: نقش‌آفرینی", category: "نقش‌آفرینی" },
+      { name: "Flee the Facility", persian: "از تأسیسات فرار کن", category: "بقا" },
+      { name: "Survive the Killer!", persian: "از قاتل جان سالم به در ببر", category: "بقا" },
+      { name: "Break In", persian: "نفوذ", category: "بقا" },
+      { name: "Break In 2", persian: "نفوذ ۲", category: "بقا" },
+      { name: "Forgotten Memories", persian: "خاطرات فراموش‌شده", category: "ترسناک" },
+      { name: "Apeirophobia", persian: "هراس از بی‌نهایت", category: "ترسناک" },
+      { name: "Backrooms Unlimited", persian: "اتاق‌های پشتی نامحدود", category: "ترسناک" },
+      { name: "Dead Rails", persian: "راه‌آهن مرده", category: "بقا" },
+      { name: "99 Nights in the Forest", persian: "۹۹ شب در جنگل", category: "بقا" },
+      { name: "Steal a Brainrot", persian: "یک مغزپوسیده بدزد", category: "اجتماعی" },
+      { name: "Dress To Impress", persian: "لباس بپوش تا تحت تأثیر قرار بدهی", category: "اجتماعی" },
+      { name: "Catalog Avatar Creator", persian: "سازنده آواتار کاتالوگ", category: "اجتماعی" },
+      { name: "Livetopia", persian: "لیوتوپیا", category: "نقش‌آفرینی" },
+      { name: "Berry Avenue RP", persian: "بلوار بری نقش‌آفرینی", category: "نقش‌آفرینی" },
+      { name: "Club Roblox", persian: "باشگاه روبلاکس", category: "نقش‌آفرینی" },
+      { name: "Welcome to Bloxburg", persian: "به بلوکسبرگ خوش آمدید", category: "ساخت‌وساز" },
+      { name: "Southwest Florida", persian: "فلوریدای جنوب غربی", category: "شبیه‌ساز" },
+      { name: "Emergency Response: Liberty County", persian: "پاسخ اضطراری: شهرستان لیبرتی", category: "نقش‌آفرینی" },
+      { name: "War Tycoon", persian: "تیکون جنگ", category: "مبارزه" },
+      { name: "Military Tycoon", persian: "تیکون نظامی", category: "ساخت‌وساز" },
+      { name: "Base Battles", persian: "نبردهای پایگاه", category: "مبارزه" },
+      { name: "Naval Warfare", persian: "جنگ دریایی", category: "مبارزه" },
+      { name: "Plane Crazy", persian: "هواپیمای دیوانه", category: "ساخت‌وساز" },
+      { name: "Islands", persian: "جزایر", category: "شبیه‌ساز" },
+      { name: "Mining Simulator 2", persian: "شبیه‌ساز معدن ۲", category: "شبیه‌ساز" },
+      { name: "Bubble Gum Simulator", persian: "شبیه‌ساز آدامس بادکنکی", category: "شبیه‌ساز" },
+      { name: "Clicker Simulator", persian: "شبیه‌ساز کلیک", category: "شبیه‌ساز" },
+      { name: "Strongman Simulator", persian: "شبیه‌ساز مرد قوی", category: "شبیه‌ساز" },
+      { name: "Speed Run 4", persian: "دوی سرعت ۴", category: "پارکور" },
+      { name: "Obby Creator", persian: "سازنده اُبی", category: "ساخت‌وساز" },
+      { name: "Escape Running Head", persian: "فرار از سر دونده", category: "بقا" },
+      { name: "Hide and Seek Extreme", persian: "قایم‌موشک شدید", category: "اجتماعی" },
+      { name: "Zombie Attack", persian: "حمله زامبی‌ها", category: "بقا" },
+      { name: "Zombie Uprising", persian: "قیام زامبی‌ها", category: "بقا" },
+      { name: "Da Hood", persian: "دا هود", category: "مبارزه" },
+      { name: "Hood Customs", persian: "سفارشی‌سازی هود", category: "مبارزه" },
+      { name: "Tower Defense Simulator", persian: "شبیه‌ساز دفاع از برج", category: "دفاع از برج" },
+      { name: "All Star Tower Defense", persian: "دفاع از برج ستارگان", category: "دفاع از برج" },
+      { name: "Toilet Tower Defense", persian: "دفاع از برج توالت", category: "دفاع از برج" },
+      { name: "Dungeon Quest", persian: "سفر سیاه‌چال", category: "مبارزه" },
+      { name: "Elemental Battlegrounds", persian: "میدان نبرد عناصر", category: "مبارزه" },
+      { name: "Project Slayers", persian: "شکارچیان شیطان", category: "انیمه" },
+      { name: "Shindo Life", persian: "زندگی شیندو", category: "انیمه" },
+      { name: "King Legacy", persian: "میراث پادشاه", category: "انیمه" },
+      { name: "Fruit Battlegrounds", persian: "میدان نبرد میوه‌ها", category: "انیمه" },
+      { name: "Untitled Boxing Game", persian: "بازی بوکس بی‌نام", category: "ورزشی" },
+      { name: "Super Golf!", persian: "گلف فوق‌العاده", category: "ورزشی" },
+      { name: "Hide the Body", persian: "جسد را پنهان کن", category: "ترسناک" },
+      { name: "Forsaken", persian: "رها شده", category: "ترسناک" }
+    ];
+
+    // ===== عناصر DOM =====
+    const grid = document.getElementById('gameGrid');
+    const searchInput = document.getElementById('searchBox');
+    const filterContainer = document.getElementById('categoryFilter');
+    const randomBtn = document.getElementById('randomBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
+    const toast = document.getElementById('toast');
+
+    let activeCategory = 'همه';
+    let searchQuery = '';
+    let toastTimeout = null;
+
+    // ===== توابع =====
+    function getFilteredGames() {
+      return gamesData.filter(game => {
+        if (activeCategory !== 'همه' && game.category !== activeCategory) return false;
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.trim().toLowerCase();
+          const nameMatch = game.name.toLowerCase().includes(q);
+          const persianMatch = game.persian.toLowerCase().includes(q);
+          const catMatch = game.category.toLowerCase().includes(q);
+          if (!nameMatch && !persianMatch && !catMatch) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderGames() {
+      const filtered = getFilteredGames();
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="no-result">😕 هیچ بازی‌ای با این دسته یا جستجو پیدا نشد</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((game, index) => `
+        <div class="game-card" data-index="${index}">
+          <div class="game-name">${game.name}</div>
+          <div class="game-persian">🇮🇷 ${game.persian}</div>
+          <span class="game-category">${game.category}</span>
+          <button class="copy-icon" data-name="${game.name}">📋 کپی اسم</button>
+          <div class="badge">🎮 روبلاکس</div>
+        </div>
+      `).join('');
+
+      // رویداد برای دکمه‌های کپی داخل کارت‌ها
+      document.querySelectorAll('.copy-icon').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const name = this.getAttribute('data-name');
+          copyToClipboard(name, '📋 اسم انگلیسی کپی شد!');
+          // تغییر موقت دکمه
+          this.textContent = '✅ کپی شد!';
+          this.classList.add('copied');
+          setTimeout(() => {
+            this.textContent = '📋 کپی اسم';
+            this.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    }
+
+    // ===== کپی به کلیپ‌بورد =====
+    function copyToClipboard(text, message) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(message || '📋 کپی شد!');
+        }).catch(() => {
+          fallbackCopy(text, message);
+        });
+      } else {
+        fallbackCopy(text, message);
+      }
+    }
+
+    function fallbackCopy(text, message) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(message || '📋 کپی شد!');
+      } catch (err) {
+        showToast('❌ کپی نشد!');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // ===== توست =====
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // ===== انتخاب تصادفی =====
+    function pickRandom() {
+      const filtered = getFilteredGames();
+      if (filtered.length === 0) {
+        showToast('😕 هیچ بازی‌ای برای انتخاب تصادفی وجود ندارد!');
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * filtered.length);
+      const game = filtered[randomIndex];
+      showToast(`🎲 بازی تصادفی: ${game.name} (${game.persian})`);
+      
+      // هایلایت کردن کارت مربوطه (اگر در صفحه باشد)
+      const cards = document.querySelectorAll('.game-card');
+      cards.forEach((card, idx) => {
+        card.style.transition = 'all 0.3s';
+        card.style.borderColor = '#e2e7ef';
+        card.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)';
+        // پیدا کردن کارت مربوطه (توسط اسم)
+        const nameEl = card.querySelector('.game-name');
+        if (nameEl && nameEl.textContent === game.name) {
+          card.style.borderColor = '#2c3e50';
+          card.style.boxShadow = '0 0 0 3px #2c3e50, 0 8px 25px rgba(44,62,80,0.2)';
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+
+    // ===== کپی همه اسامی =====
+    function copyAllNames() {
+      const filtered = getFilteredGames();
+      if (filtered.length === 0) {
+        showToast('😕 هیچ بازی‌ای برای کپی وجود ندارد!');
+        return;
+      }
+      const names = filtered.map(g => g.name).join('\n');
+      copyToClipboard(names, `📋 ${filtered.length} اسم کپی شد!`);
+    }
+
+    // ===== دسته‌بندی =====
+    function setActiveCategory(category) {
+      activeCategory = category;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        const cat = btn.getAttribute('data-cat');
+        btn.classList.toggle('active', cat === category);
+      });
+      renderGames();
+    }
+
+    // ===== رویدادها =====
+    filterContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      const cat = btn.getAttribute('data-cat');
+      if (cat) setActiveCategory(cat);
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderGames();
+    });
+
+    randomBtn.addEventListener('click', pickRandom);
+    copyAllBtn.addEventListener('click', copyAllNames);
+
+    // ===== مقداردهی اولیه =====
+    setActiveCategory('همه');
+  })();
+</script>
+</body>
+</html>
