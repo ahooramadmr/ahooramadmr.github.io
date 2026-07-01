@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیام‌های مادکرافت 🎮</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            width: 100%;
+        }
+
+        /* عنوان بالای صفحه */
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-title i {
+            color: #5a7a8a;
+            margin-left: 10px;
+        }
+
+        .page-title small {
+            display: block;
+            font-size: 0.9rem;
+            color: #7a8a9a;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        /* کارت پیام - تم سفید طوسی */
+        .message-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px 30px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e8ecf0;
+            transition: all 0.3s ease;
+            animation: fadeSlide 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .message-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border-color: #d0d8e0;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* هدر پیام */
+        .message-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #d5dce4, #c0c8d0);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            border: 2px solid #dce2e8;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .name-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a2630;
+            line-height: 1.2;
+        }
+
+        .user-badge {
+            font-size: 0.6rem;
+            color: #6a7a8a;
+            background: #eef2f6;
+            padding: 1px 14px;
+            border-radius: 30px;
+            border: 1px solid #e0e6ec;
+            width: fit-content;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .user-badge i {
+            color: #8a9aaa;
+            font-size: 0.5rem;
+        }
+
+        /* ستاره‌ها */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: #f5f7f9;
+            padding: 5px 14px 5px 10px;
+            border-radius: 60px;
+            border: 1px solid #e6eaf0;
+            direction: ltr;
+        }
+
+        .star-icon {
+            color: #f5b342;
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 4px rgba(245, 179, 66, 0.1));
+            animation: starPulse 2.8s infinite alternate ease-in-out;
+            display: inline-block;
+        }
+        .star-icon:nth-child(2) { animation-delay: 0.15s; }
+        .star-icon:nth-child(3) { animation-delay: 0.4s; }
+        .star-icon:nth-child(4) { animation-delay: 0.65s; }
+        .star-icon:nth-child(5) { animation-delay: 0.9s; }
+
+        @keyframes starPulse {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(4deg); filter: drop-shadow(0 0 12px rgba(245,179,66,0.2)); }
+        }
+
+        .star-count {
+            color: #8a7a5a;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 2px;
+        }
+
+        /* متن پیام */
+        .message-body {
+            margin-top: 10px;
+        }
+
+        .message-text {
+            background: #f6f8fa;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border-right: 3px solid #a0b0c0;
+            color: #1a2a3a;
+            font-size: 1rem;
+            line-height: 1.8;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.02);
+            word-break: break-word;
+        }
+
+        .message-text i {
+            color: #6a8a9a;
+            margin-left: 10px;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        /* فوتر: فقط لایک */
+        .message-footer {
+            margin-top: 14px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid #eef2f6;
+            padding-top: 14px;
+        }
+
+        .like-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f5f7f9;
+            padding: 4px 16px 4px 12px;
+            border-radius: 40px;
+            border: 1px solid #e6eaf0;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .like-section:hover {
+            background: #edf0f4;
+            border-color: #d0d8e0;
+        }
+
+        .like-section i {
+            font-size: 1.2rem;
+            color: #8a9aaa;
+            transition: all 0.3s ease;
+        }
+
+        .like-section.liked i {
+            color: #e74c6f;
+        }
+
+        .like-section.liked i {
+            animation: likePop 0.4s ease;
+        }
+
+        @keyframes likePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+
+        .like-count {
+            color: #3a4a5a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 20px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .like-badge {
+            color: #6a8a9a;
+            font-size: 0.6rem;
+            background: #eef2f6;
+            padding: 1px 10px;
+            border-radius: 30px;
+            border: 1px solid #e0e6ec;
+        }
+
+        .like-section:active i {
+            transform: scale(0.85);
+        }
+
+        /* مجموع کل لایک‌ها */
+        .total-likes-bar {
+            background: #ffffff;
+            border: 1px solid #e8ecf0;
+            border-radius: 16px;
+            padding: 14px 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .total-likes-bar .label {
+            color: #5a6a7a;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .total-likes-bar .label i {
+            color: #e74c6f;
+            font-size: 1.1rem;
+        }
+
+        .total-likes-bar .total-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a2a3a;
+            font-family: 'Courier New', monospace;
+            background: #f5f7f9;
+            padding: 2px 20px;
+            border-radius: 40px;
+            border: 1px solid #e6eaf0;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* دکمه تغییر پیام */
+        .refresh-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .refresh-btn button {
+            background: #ffffff;
+            border: 1px solid #dce2e8;
+            color: #3a4a5a;
+            padding: 12px 34px;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        .refresh-btn button:hover {
+            background: #f5f7f9;
+            border-color: #b0c0d0;
+            transform: scale(1.02);
+        }
+        .refresh-btn button i {
+            margin-left: 12px;
+            color: #6a8a9a;
+        }
+
+        .msg-counter {
+            text-align: center;
+            margin-top: 12px;
+            color: #8a9aaa;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* پیام جدید در بالای لیست */
+        .new-message-banner {
+            background: #ffffff;
+            border: 1px solid #e8ecf0;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            animation: fadeSlide 0.5s ease-out forwards;
+            border-right: 4px solid #6a8a9a;
+        }
+
+        .new-message-banner .new-icon {
+            background: #eef2f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3a5a6a;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .new-message-banner .new-content {
+            flex: 1;
+        }
+
+        .new-message-banner .new-content .new-title {
+            font-weight: 600;
+            color: #1a2a3a;
+            font-size: 0.95rem;
+        }
+
+        .new-message-banner .new-content .new-desc {
+            color: #5a6a7a;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .new-message-banner .new-badge {
+            background: #e74c6f;
+            color: white;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 500px) {
+            .message-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .star-rating {
+                align-self: flex-start;
+            }
+            .user-name {
+                font-size: 1.1rem;
+            }
+            .message-text {
+                font-size: 0.9rem;
+                padding: 14px 16px;
+            }
+            .avatar {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+            .total-likes-bar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .new-message-banner {
+                flex-wrap: wrap;
+            }
+            .page-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- عنوان -->
+        <div class="page-title">
+            <i class="fas fa-cube"></i> مادکرافت
+            <small>پیام‌های کاربران درباره مودهای ماینکرفت</small>
+        </div>
+
+        <!-- مجموع کل لایک‌ها (شروع از صفر) -->
+        <div class="total-likes-bar">
+            <span class="label">
+                <i class="fas fa-heart"></i> مجموع لایک‌های همه پیام‌ها
+            </span>
+            <span class="total-count" id="totalLikesDisplay">0</span>
+        </div>
+
+        <!-- پیام جدید در بالای لیست (همین الان) -->
+        <div class="new-message-banner">
+            <div class="new-icon"><i class="fas fa-bolt"></i></div>
+            <div class="new-content">
+                <div class="new-title">🔥 ماد کرافت تازه اومده!</div>
+                <div class="new-desc">مود جدید لاک‌پشت‌های نینجا + باب‌اسفنجی + سونیک، با مپ‌های روبلاکس ترکیب شده! هم‌اکنون امتحان کنید.</div>
+            </div>
+            <span class="new-badge">جدید</span>
+        </div>
+
+        <!-- کارت پیام اصلی -->
+        <div class="message-card" id="messageCard">
+            <div class="message-header">
+                <div class="user-info">
+                    <div class="avatar" id="avatarLetter">🐢</div>
+                    <div class="name-wrapper">
+                        <span class="user-name" id="userName">NinjaTurtle</span>
+                        <span class="user-badge"><i class="fas fa-gamepad"></i> مادباز حرفه‌ای</span>
+                    </div>
+                </div>
+                <div class="star-rating" id="starContainer">
+                    <i class="fas fa-star star-icon"></i>
+                    <i class="fas fa-star star-icon"></i>
+                    <i class="fas fa-star star-icon"></i>
+                    <i class="fas fa-star star-icon"></i>
+                    <i class="fas fa-star star-icon"></i>
+                    <span class="star-count" id="starCount">5</span>
+                </div>
+            </div>
+
+            <div class="message-body">
+                <div class="message-text" id="messageText">
+                    <i class="fas fa-quote-right"></i>
+                    مود لاک‌پشت‌های نینجا رو نصب کردم، با باب‌اسفنجی تیم شدیم و به سونیک تبدیل شدیم! 🤯
+                </div>
+            </div>
+
+            <div class="message-footer">
+                <div class="like-section" id="likeSection">
+                    <i class="far fa-heart" id="heartIcon"></i>
+                    <span class="like-count" id="likeCount">0</span>
+                    <span class="like-badge">+۳</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="refresh-btn">
+            <button id="changeMessageBtn">
+                <i class="fas fa-rotate"></i> پیام جدید
+            </button>
+        </div>
+        <div class="msg-counter" id="msgCounter">پیام ۱ از ۴۲</div>
+    </div>
+
+    <script>
+        (function() {
+            // ========================================================
+            //  دیتابیس پیام‌های مادکرافت (مودهای ماینکرفت)
+            // ========================================================
+            const messages = [
+                // -- مودهای لاک‌پشت‌های نینجا --
+                { name: "NinjaTurtle", avatar: "🐢", stars: 5, text: "مود لاک‌پشت‌های نینجا رو نصب کردم، با باب‌اسفنجی تیم شدیم و به سونیک تبدیل شدیم! 🤯" },
+                { name: "TurtlePower", avatar: "🐢", stars: 5, text: "لاک‌پشت‌های نینجا با کونگ‌فو و شمشیر الماسی، کرپرها رو یک ضربه می‌زدن! بهترین مود عمرم." },
+                { name: "Ninja_Squad", avatar: "🥷", stars: 5, text: "چهار تا لاک‌پشت نینجا رو توی ماینکرفت دیدم، با هم رفتیم اند و دراگون رو شکست دادیم." },
+                { name: "TMNT_Fan", avatar: "🐢", stars: 5, text: "لاک‌پشت‌های نینجا با سلاح‌های خاصشون، هر ماب رو نابود می‌کنن. راфаیل رو دوست دارم." },
+                { name: "Shredder_MC", avatar: "⚔️", stars: 4, text: "با مود لاک‌پشت‌ها، شرِدر رو توی بازی پیدا کردم و باهاش جنگیدم. سخت‌ترین باس فایت عمرم." },
+                { name: "Turtle_Obby", avatar: "🐢", stars: 4, text: "مپ Obby روبلاکس رو با مود لاک‌پشت‌ها بازی کردم، لاک‌پشت‌ها از موانع رد می‌شن!" },
+                { name: "Ninja_Roblox", avatar: "🥷", stars: 5, text: "لاک‌پشت‌های نینجا توی مپ Murder Mystery روبلاکس، قاتل رو پیدا کردن!" },
+                { name: "Fast_Turtle", avatar: "🐢", stars: 3, text: "لاک‌پشت‌های نینجا با سرعت سونیک! باورنکردنی‌ترین مود ترکیبی که دیدم." },
+
+                // -- مودهای باب‌اسفنجی --
+                { name: "Sponge_Miner", avatar: "🧽", stars: 4, text: "باب‌اسفنجی توی ماینکرفت؟! با مود SpongeCraft، زیر آب خونه‌ای مثل خونش ساختم." },
+                { name: "Krabby_Patty", avatar: "🍔", stars: 3, text: "مود باب‌اسفنجی یه غذای جدید اضافه کرده: همبرگر کرم‌خوری! عجیب ولی خوشمزه توی بازی." },
+                { name: "Bikini_Bottom", avatar: "🏝️", stars: 3, text: "مود باب‌اسفنجی یه بایوم زیرآبی به اسم بیکینی باتوم اضافه کرده، خیلی باحاله." },
+                { name: "Patrick_Star", avatar: "🌟", stars: 2, text: "پاتریک ستاره توی ماینکرفت؟! مود عجیبی بود ولی خنده‌دار بود." },
+                { name: "SpongeCraft", avatar: "🧽", stars: 4, text: "باب‌اسفنجی می‌تونه زیر آب نفس بکشه و با چرخ‌های قایق‌رانی ماین کند! خیلی کاربردی‌ست." },
+                { name: "Sponge_Parkour", avatar: "🧽", stars: 3, text: "باب‌اسفنجی توی مپ پارکور روبلاکس، با حرکت خنده‌دارش کلی اذیت شدم ولی باحال بود." },
+                { name: "SpongeBob_Map", avatar: "🧽", stars: 4, text: "مپ روبلاکس با تم باب‌اسفنجی، همه چیز زرد و آبی بود! خونه‌اش رو توی ماینکرفت ساختم." },
+
+                // -- مودهای سونیک --
+                { name: "Sonic_Blast", avatar: "⚡", stars: 5, text: "مود Sonic Transform رو امتحان کردم، با ۳۰۰ تا سرعت توی ندر می‌دویدم! دیگه هیچکس به من نمی‌رسه." },
+                { name: "Fast_Blue", avatar: "💨", stars: 4, text: "با مود Sonic، از اند تا دهکده رو ۲ ثانیه رفتم! ولی کنترل کردنش سخته 😂" },
+                { name: "Sonic_Rider", avatar: "🦔", stars: 4, text: "سوار بر سونیک توی ماینکرفت! سرعتش با الیترا برابری می‌کنه، فقط مواظب دیوارها باش." },
+                { name: "Super_Sonic", avatar: "⭐", stars: 5, text: "با مود Super Sonic می‌تونم پرواز کنم و از تیرهای ویتر بزنم! دیگه هیچ ترسی ندارم." },
+                { name: "Sonic_World", avatar: "🌍", stars: 3, text: "مود Sonic World یه مپ جدید با حلقه‌های طلایی اضافه کرده، یاد بازی قدیمی سونیک افتادم." },
+                { name: "Sonic_Roblox", avatar: "💥", stars: 5, text: "با مود سونیک رفتم توی مپ روبلاکس، کل مپ رو با سرعت نور گشتم! عالی بود." },
+                { name: "Sonic_Tower", avatar: "🦔", stars: 4, text: "مپ Tower Defense روبلاکس با سرعت سونیک، برج‌ها رو سریع‌تر می‌ساختم." },
+
+                // -- مپ‌های روبلاکس --
+                { name: "Roblox_Pro", avatar: "🎮", stars: 5, text: "مپ جدید روبلاکس با ۱۰۰ مینی‌گیم رو امتحان کردم، بهتر از هر چیزی بود توی ماینکرفت!" },
+                { name: "BedWars_Fan", avatar: "🛏️", stars: 4, text: "مپ روبلاکس شبیه به BedWars رو توی ماینکرفت ساختن، خیلی کیف میده." },
+                { name: "Roblox_Racer", avatar: "🏎️", stars: 3, text: "مپ مسابقه‌ای روبلاکس توی ماینکرفت، با ماشین‌های مود شده حسابی هیجان‌انگیزه." },
+                { name: "Tower_Defense", avatar: "🏰", stars: 5, text: "مپ Tower Defense شبیه روبلاکس، باید برج بسازی و از دهکده دفاع کنی. اعتیادآوره!" },
+                { name: "Roblox_Parkour", avatar: "🏃", stars: 4, text: "مپ پارکور روبلاکس با ۵۰ مرحله، خیلی چالش‌برانگیز بود ولی لذت‌بخش." },
+                { name: "Obby_World", avatar: "🧗", stars: 5, text: "مپ Obby شبیه روبلاکس با موانع آتش و آب، کلی وقت گذاشتم تا تمومش کنم." },
+                { name: "Roblox_Sim", avatar: "🏙️", stars: 3, text: "مپ شبیه‌سازی روبلاکس توی ماینکرفت، می‌تونی شهر بسازی و ثروتمند بشی." },
+                { name: "Murder_Mystery", avatar: "🔪", stars: 4, text: "مپ Murder Mystery الهام‌گرفته از روبلاکس، باید قاتل رو پیدا کنی! خیلی جذابه." },
+                { name: "Roblox_Adventure", avatar: "🗺️", stars: 5, text: "مپ ماجراجویی روبلاکس با داستان عالی و غارهای مرموز، بهترین مپی که دیدم." },
+                { name: "Speed_Run", avatar: "⏱️", stars: 4, text: "مپ Speed Run روبلاکس توی ماینکرفت، باید در کمتر از ۵ دقیقه همه موانع رو رد کنی." },
+                { name: "Roblox_Hub", avatar: "🌐", stars: 3, text: "هاب روبلاکس با پورتال به ۱۰ مپ مختلف، هر روز یه مپ جدید بازی می‌کنم." },
+                { name: "Prison_Escape", avatar: "⛓️", stars: 5, text: "مپ فرار از زندان شبیه روبلاکس، با دوستام کلی خندیدیم و فرار کردیم." },
+                { name: "Roblox_SkyWars", avatar: "☁️", stars: 4, text: "مپ SkyWars روبلاکس توی ماینکرفت، روی ابرها می‌جنگی و برنده می‌شی." },
+                { name: "Hide_Seek", avatar: "👻", stars: 3, text: "مپ قایم‌باشک روبلاکس، با مودهای مخفی‌کاری حسابی کیف داره." },
+                { name: "Roblox_MMO", avatar: "⚔️", stars: 5, text: "مپ MMO روبلاکس با سیستم سطح‌بندی و کلاس‌های مختلف، بهترین تجربه ماینکرفت." },
+
+                // -- ترکیبی --
+                { name: "Mod_Map_Mix", avatar: "🌀", stars: 4, text: "مود لاک‌پشت‌های نینجا رو با مپ روبلاکس ترکیب کردم، توی یه مپ لاک‌پشت‌ها با باب‌اسفنجی مسابقه می‌دن!" },
+                { name: "Roblox_Sonic", avatar: "🎮", stars: 5, text: "ترکیب مود سونیک و مپ روبلاکس یه تجربه جدید ساخت، انگار توی یه بازی دیگه‌ام." },
+                { name: "Roblox_TMNT", avatar: "🎮", stars: 5, text: "مپ روبلاکس با لاک‌پشت‌های نینجا، باید شهر رو از دست کرپرها نجات بدی." }
+            ];
+
+            // ========================================================
+            //  المان‌ها
+            // ========================================================
+            const userNameEl = document.getElementById('userName');
+            const avatarLetterEl = document.getElementById('avatarLetter');
+            const starCountEl = document.getElementById('starCount');
+            const messageTextEl = document.getElementById('messageText');
+            const starContainer = document.getElementById('starContainer');
+            const cardEl = document.getElementById('messageCard');
+            const changeBtn = document.getElementById('changeMessageBtn');
+            const msgCounter = document.getElementById('msgCounter');
+            const likeCountEl = document.getElementById('likeCount');
+            const heartIcon = document.getElementById('heartIcon');
+            const likeSection = document.getElementById('likeSection');
+            const totalLikesDisplay = document.getElementById('totalLikesDisplay');
+
+            let currentIndex = 0;
+            let currentLikes = 0;          // لایک این پیام از صفر شروع می‌شود
+            let isLiked = false;
+            let totalLikes = 0;             // مجموع کل لایک‌های همه پیام‌ها
+
+            // ========================================================
+            //  تابع بروزرسانی پیام
+            // ========================================================
+            function updateMessage(index) {
+                const data = messages[index % messages.length];
+
+                // تغییر نام و آواتار
+                userNameEl.textContent = data.name;
+                avatarLetterEl.textContent = data.avatar;
+
+                // تغییر متن
+                messageTextEl.innerHTML = `<i class="fas fa-quote-right"></i> ${data.text}`;
+
+                // بروزرسانی ستاره‌ها
+                const starIcons = starContainer.querySelectorAll('.star-icon');
+                const filledStars = Math.min(data.stars, 5);
+                starIcons.forEach((star, idx) => {
+                    if (idx < filledStars) {
+                        star.style.color = '#f5b342';
+                        star.style.opacity = '1';
+                    } else {
+                        star.style.color = '#d0d8e0';
+                        star.style.opacity = '0.4';
+                    }
+                    star.style.animation = 'none';
+                    void star.offsetHeight;
+                    star.style.animation = `starPulse 2.8s ${idx * 0.15}s infinite alternate ease-in-out`;
+                });
+                starCountEl.textContent = filledStars;
+
+                // ریست انیمیشن کارت
+                cardEl.style.animation = 'none';
+                void cardEl.offsetHeight;
+                cardEl.style.animation = 'fadeSlide 0.6s ease-out forwards';
+
+                // تغییر رنگ آواتار
+                const hue = (data.name.length * 27 + data.stars * 15) % 360;
+                avatarLetterEl.style.background = `linear-gradient(145deg, hsl(${hue}, 20%, 85%), hsl(${hue + 20}, 25%, 75%))`;
+                avatarLetterEl.style.borderColor = `hsl(${hue + 30}, 30%, 80%)`;
+
+                // شمارنده پیام
+                msgCounter.textContent = `پیام ${(index % messages.length) + 1} از ${messages.length}`;
+
+                // ====== ریست لایک این پیام به صفر ======
+                currentLikes = 0;
+                likeCountEl.textContent = currentLikes;
+                isLiked = false;
+                heartIcon.className = 'far fa-heart';
+                likeSection.classList.remove('liked');
+
+                // مجموع کل لایک‌ها رو دوباره محاسبه می‌کنیم (با توجه به لایک‌های ذخیره شده در این جلسه)
+                // در این نسخه ساده، مجموع رو همیشه از صفر محاسبه می‌کنیم چون هر پیام لایک جداگانه داره
+                // ولی برای نمایش واقعی، totalLikes رو هم ریست می‌کنیم به صفر
+                // (چون هر پیام جدید لایک‌های قبلی رو نگه نمی‌داره)
+                // برای نمایش بهتر، totalLikes رو صفر می‌کنیم و کاربر با لایک کردن، بهش اضافه می‌کنه
+                totalLikes = 0;
+                // اما لایک‌های قبلی که کاربر داده بود رو باید محاسبه کنیم
+                // برای اینکار، یه آرایه برای ذخیره لایک‌های هر پیام داریم
+                // در اینجا ساده‌ترین راه: totalLikes رو از مجموع لایک‌های تمام پیام‌ها محاسبه کنیم
+                // اما چون هر پیام مستقل است، فقط لایک پیام فعلی رو نشون می‌دیم
+                // برای total بهتره که فقط لایک‌های پیام فعلی رو نشون بده
+                // ولی درخواست شده "مجموع کل لایک‌های همه پیام‌ها"
+                // برای اینکار باید همه لایک‌ها رو ذخیره کنیم، اما در این نسخه ساده، 
+                // فقط لایک پیام فعلی رو به total اضافه می‌کنیم.
+                // راه حل: totalLikes رو با جمع لایک‌های همه پیام‌هایی که تا حالا دیده شده محاسبه کنیم.
+                // اینجا یه آرایه برای ذخیره لایک‌های هر پیام داریم:
+                if (!window.messageLikes) {
+                    window.messageLikes = {};
+                }
+                // ریست کردن لایک پیام جدید
+                window.messageLikes[index] = 0;
+                // محاسبه مجموع
+                totalLikes = 0;
+                for (let key in window.messageLikes) {
+                    totalLikes += window.messageLikes[key];
+                }
+                totalLikesDisplay.textContent = totalLikes;
+            }
+
+            // ========================================================
+            //  تابع لایک کردن (+۳)
+            // ========================================================
+            function handleLike() {
+                if (!isLiked) {
+                    // اضافه کردن ۳ تا لایک
+                    currentLikes += 3;
+                    likeCountEl.textContent = currentLikes;
+                    isLiked = true;
+                    heartIcon.className = 'fas fa-heart';
+                    likeSection.classList.add('liked');
+                    
+                    // ذخیره در آرایه
+                    if (!window.messageLikes) {
+                        window.messageLikes = {};
+                    }
+                    window.messageLikes[currentIndex] = currentLikes;
+
+                    // محاسبه مجدد مجموع کل
+                    totalLikes = 0;
+                    for (let key in window.messageLikes) {
+                        totalLikes += window.messageLikes[key];
+                    }
+                    totalLikesDisplay.textContent = totalLikes;
+
+                    // افکت
+                    heartIcon.style.animation = 'none';
+                    void heartIcon.offsetHeight;
+                    heartIcon.style.animation = 'likePop 0.4s ease';
+                } else {
+                    // اگر قبلاً لایک کرده، ۳ تا کم می‌کنه (لغو لایک)
+                    currentLikes -= 3;
+                    likeCountEl.textContent = currentLikes;
+                    isLiked = false;
+                    heartIcon.className = 'far fa-heart';
+                    likeSection.classList.remove('liked');
+
+                    // به‌روزرسانی آرایه
+                    if (window.messageLikes) {
+                        window.messageLikes[currentIndex] = currentLikes;
+                    }
+
+                    // محاسبه مجدد مجموع کل
+                    totalLikes = 0;
+                    for (let key in window.messageLikes) {
+                        totalLikes += window.messageLikes[key];
+                    }
+                    totalLikesDisplay.textContent = totalLikes;
+                }
+            }
+
+            // ========================================================
+            //  رویدادها
+            // ========================================================
+            function nextMessage() {
+                currentIndex = (currentIndex + 1) % messages.length;
+                updateMessage(currentIndex);
+            }
+
+            changeBtn.addEventListener('click', nextMessage);
+            likeSection.addEventListener('click', handleLike);
+
+            // بارگذاری اولیه
+            window.addEventListener('load', function() {
+                window.messageLikes = {};
+                setTimeout(() => {
+                    updateMessage(0);
+                }, 200);
+            });
+
+            // تغییر خودکار هر ۷ ثانیه
+            setInterval(nextMessage, 7000);
+
+        })();
+    </script>
+</body>
+</html>
+     
